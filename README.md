@@ -45,4 +45,4 @@ The application uses the following entities:
 - SQL Server 2016 or later
 
 ## Contact
-For verification and questions, contact: stefan.becker@rosond.com 
+For verification and questions, contact: jsimelane3@gmail.com
