@@ -43,7 +43,7 @@ namespace VehicleLeasingApp.Models
         }
     }
 
-    public class VehicleLeasingInitializer : DropCreateDatabaseIfModelChanges<VehicleLeasingContext>
+    public class VehicleLeasingInitializer : CreateDatabaseIfNotExists<VehicleLeasingContext>
     {
         protected override void Seed(VehicleLeasingContext context)
         {
