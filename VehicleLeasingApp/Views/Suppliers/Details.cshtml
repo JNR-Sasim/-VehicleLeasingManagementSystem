@@ -1,0 +1,108 @@
+@model VehicleLeasingApp.Models.Supplier
+
+@{
+    ViewBag.Title = "Supplier Details";
+}
+
+<div class="form-container">
+    <div class="form-header">
+        <div class="breadcrumb-nav">
+            @Html.ActionLink("Suppliers", "Index", null, new { @class = "breadcrumb-link" }) 
+            <span class="breadcrumb-separator">›</span>
+            <span class="breadcrumb-current">Supplier Details</span>
+        </div>
+        <h1>Supplier Details</h1>
+        <p class="form-subtitle">Complete information for @(Model.Name)</p>
+    </div>
+
+    <div class="clean-form">
+        <div class="form-sections">
+            <!-- Basic Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Basic Information</h3>
+                    <p>Company details and primary contact information</p>
+                </div>
+                <div class="section-content">
+                    <table class="details-table">
+                        <tr>
+                            <td class="detail-label">Company Name</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.Name)</td>
+                            <td class="detail-label">Status</td>
+                            <td class="detail-value">
+                                <span class="status-badge @(Model.IsActive ? "status-available" : "status-maintenance")">
+                                    @(Model.IsActive ? "Active" : "Inactive")
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Contact Person</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.ContactPerson)</td>
+                            <td class="detail-label">Phone</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.Phone)</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Email</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.Email)</td>
+                            <td class="detail-label">Website</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.Website)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Address Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Address Information</h3>
+                    <p>Physical location and address details</p>
+                </div>
+                <div class="section-content">
+                    <table class="details-table">
+                        <tr>
+                            <td class="detail-label">Address</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.Address)</td>
+                            <td class="detail-label">City</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.City)</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">State/Province</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.State)</td>
+                            <td class="detail-label">Postal Code</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.PostalCode)</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Country</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.Country)</td>
+                            <td class="detail-label">Registration Date</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.RegistrationDate)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Additional Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Additional Information</h3>
+                    <p>Notes and additional details</p>
+                </div>
+                <div class="section-content">
+                    <table class="details-table">
+                        <tr>
+                            <td class="detail-label">Notes</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.Notes)</td>
+                            <td class="detail-label"></td>
+                            <td class="detail-value"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            @Html.ActionLink("Edit Supplier", "Edit", new { id = Model.SupplierId }, new { @class = "btn-primary" })
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn-secondary" })
+        </div>
+    </div>
+</div> 

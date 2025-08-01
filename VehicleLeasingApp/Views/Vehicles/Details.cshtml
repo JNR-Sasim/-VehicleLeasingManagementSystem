@@ -1,0 +1,120 @@
+@model VehicleLeasingApp.Models.Vehicle
+
+@{
+    ViewBag.Title = "Vehicle Details";
+}
+
+<div class="form-container">
+    <div class="form-header">
+        <div class="breadcrumb-nav">
+            @Html.ActionLink("Vehicles", "Index", null, new { @class = "breadcrumb-link" }) 
+            <span class="breadcrumb-separator">›</span>
+            <span class="breadcrumb-current">Vehicle Details</span>
+        </div>
+        <h1>Vehicle Details</h1>
+        <p class="form-subtitle">Complete information for @(Model.Make) @(Model.Model) (@(Model.LicensePlate))</p>
+    </div>
+
+    <div class="clean-form">
+        <div class="form-sections">
+            <!-- Vehicle Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Vehicle Information</h3>
+                    <p>Basic vehicle details and specifications</p>
+                </div>
+                <div class="section-content">
+                    <table class="details-table">
+                        <tr>
+                            <td class="detail-label">License Plate</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.LicensePlate)</td>
+                            <td class="detail-label">Status</td>
+                            <td class="detail-value">
+                                <span class="status-badge @(Model.Status == "Available" ? "status-available" : Model.Status == "Leased" ? "status-leased" : "status-maintenance")">
+                                    @Html.DisplayFor(model => model.Status)
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Make</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.Make)</td>
+                            <td class="detail-label">Model</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.Model)</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Year</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.Year)</td>
+                            <td class="detail-label">Color</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.Color)</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Fuel Type</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.FuelType)</td>
+                            <td class="detail-label">Engine Size</td>
+                            <td class="detail-value">@(Html.DisplayFor(model => model.EngineSize)) L</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Mileage</td>
+                            <td class="detail-value">@(Html.DisplayFor(model => model.Mileage)) km</td>
+                            <td class="detail-label">Daily Rate</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.DailyRate)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Assignments Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Assignments & Location</h3>
+                    <p>Current supplier, branch, client and driver assignments</p>
+                </div>
+                <div class="section-content">
+                    <table class="details-table">
+                        <tr>
+                            <td class="detail-label">Supplier</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.Supplier.Name)</td>
+                            <td class="detail-label">Branch</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.Branch.Name)</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Client</td>
+                            <td class="detail-value">@(Model.Client != null ? Model.Client.CompanyName : "N/A")</td>
+                            <td class="detail-label">Driver</td>
+                            <td class="detail-value">@(Model.Driver != null ? Model.Driver.FirstName + " " + Model.Driver.LastName : "N/A")</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Service Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Service Information</h3>
+                    <p>Registration and maintenance scheduling</p>
+                </div>
+                <div class="section-content">
+                    <table class="details-table">
+                        <tr>
+                            <td class="detail-label">Registration Date</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.RegistrationDate)</td>
+                            <td class="detail-label">Last Service Date</td>
+                            <td class="detail-value">@(Model.LastServiceDate.HasValue ? Model.LastServiceDate.Value.ToString("MM/dd/yyyy") : "N/A")</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Next Service Due</td>
+                            <td class="detail-value">@(Model.NextServiceDue.HasValue ? Model.NextServiceDue.Value.ToString("MM/dd/yyyy") : "N/A")</td>
+                            <td class="detail-label"></td>
+                            <td class="detail-value"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            @Html.ActionLink("Edit Vehicle", "Edit", new { id = Model.VehicleId }, new { @class = "btn-primary" })
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn-secondary" })
+        </div>
+    </div>
+</div> 

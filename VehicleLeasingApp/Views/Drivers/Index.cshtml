@@ -1,0 +1,139 @@
+@model IEnumerable<VehicleLeasingApp.Models.Driver>
+
+@{
+    ViewBag.Title = "Drivers";
+}
+
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <a href="/" class="sidebar-brand">SA Vehicle Leasing</a>
+            <small style="color: rgba(255,255,255,0.6);">Management System</small>
+        </div>
+        <ul class="sidebar-nav">
+            <li>
+                <a href="/Home/Index">
+                    <i class="material-icons">dashboard</i>
+                    Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="/Vehicles/Index">
+                    <i class="material-icons">directions_car</i>
+                    Vehicles
+                </a>
+            </li>
+            <li>
+                <a href="/Suppliers/Index">
+                    <i class="material-icons">business</i>
+                    Suppliers
+                </a>
+            </li>
+            <li>
+                <a href="/Branches/Index">
+                    <i class="material-icons">store</i>
+                    Branches
+                </a>
+            </li>
+            <li>
+                <a href="/Clients/Index">
+                    <i class="material-icons">people</i>
+                    Clients
+                </a>
+            </li>
+            <li>
+                <a href="/Drivers/Index" class="active">
+                    <i class="material-icons">person</i>
+                    Drivers
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+    <div class="page-header-clean">
+        <div class="header-content">
+            <h1>Drivers</h1>
+            <div class="header-actions">
+                @Html.ActionLink("Add Driver", "Create", null, new { @class = "btn btn-primary" })
+            </div>
+        </div>
+        
+        <div class="fleet-summary">
+            <div class="summary-item">
+                <span class="number">@Model.Count()</span>
+                <span class="label">Total Drivers</span>
+            </div>
+            <div class="summary-item">
+                <span class="number">@Model.Count(d => d.IsActive)</span>
+                <span class="label">Active</span>
+            </div>
+            <div class="summary-item">
+                <span class="number">@Model.Count(d => (d.LicenseExpiryDate - DateTime.Today).Days <= 30)</span>
+                <span class="label">Expiring Soon</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="data-table-container">
+        <div class="table-responsive">
+            <table class="table data-table">
+                <thead>
+                    <tr>
+                        <th>Driver</th>
+                        <th>License</th>
+                        <th>Contact</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        var daysUntilExpiry = (item.LicenseExpiryDate - DateTime.Today).Days;
+                        var expiryStatus = daysUntilExpiry <= 30 ? "expired" : 
+                                         daysUntilExpiry <= 90 ? "expiring" : "valid";
+                        <tr class="data-row" data-status="@(item.IsActive ? "active" : "inactive")">
+                            <td>
+                                <div class="primary-info">
+                                    <div class="name">@item.FullName</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="license-info">
+                                    <div class="license-number">@item.DriverLicenseNumber</div>
+                                    <div class="expiry-date status-@expiryStatus">
+                                        Expires: @item.LicenseExpiryDate.ToString("yyyy/MM/dd")
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="contact-info">
+                                    <div class="phone">@item.Phone</div>
+                                    <div class="email">@item.Email</div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="status-badge status-@(item.IsActive ? "active" : "inactive")">
+                                    @(item.IsActive ? "Active" : "Inactive")
+                                </span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    @Html.ActionLink("View", "Details", new { id = item.DriverId }, new { @class = "btn btn-sm btn-outline" })
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.DriverId }, new { @class = "btn btn-sm btn-outline" })
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.DriverId }, new { @class = "btn btn-sm btn-outline btn-danger" })
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+        </div>
+    </div>
+</div> 

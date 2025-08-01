@@ -1,0 +1,132 @@
+@model IEnumerable<VehicleLeasingApp.Models.Client>
+
+@{
+    ViewBag.Title = "Clients";
+}
+
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <a href="/" class="sidebar-brand">SA Vehicle Leasing</a>
+            <small style="color: rgba(255,255,255,0.6);">Management System</small>
+        </div>
+        <ul class="sidebar-nav">
+            <li>
+                <a href="/Home/Index">
+                    <i class="material-icons">dashboard</i>
+                    Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="/Vehicles/Index">
+                    <i class="material-icons">directions_car</i>
+                    Vehicles
+                </a>
+            </li>
+            <li>
+                <a href="/Suppliers/Index">
+                    <i class="material-icons">business</i>
+                    Suppliers
+                </a>
+            </li>
+            <li>
+                <a href="/Branches/Index">
+                    <i class="material-icons">store</i>
+                    Branches
+                </a>
+            </li>
+            <li>
+                <a href="/Clients/Index" class="active">
+                    <i class="material-icons">people</i>
+                    Clients
+                </a>
+            </li>
+            <li>
+                <a href="/Drivers/Index">
+                    <i class="material-icons">person</i>
+                    Drivers
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+    <div class="page-header-clean">
+        <div class="header-content">
+            <h1>Clients</h1>
+            <div class="header-actions">
+                @Html.ActionLink("Add Client", "Create", null, new { @class = "btn btn-primary" })
+            </div>
+        </div>
+        
+        <div class="fleet-summary">
+            <div class="summary-item">
+                <span class="number">@Model.Count()</span>
+                <span class="label">Total Clients</span>
+            </div>
+            <div class="summary-item">
+                <span class="number">@Model.Count(c => c.IsActive)</span>
+                <span class="label">Active</span>
+            </div>
+            <div class="summary-item">
+                <span class="number">@Model.Count(c => !c.IsActive)</span>
+                <span class="label">Inactive</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="data-table-container">
+        <div class="table-responsive">
+            <table class="table data-table">
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Contact</th>
+                        <th>Communication</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="data-row" data-status="@(item.IsActive ? "active" : "inactive")">
+                            <td>
+                                <div class="primary-info">
+                                    <div class="name">@item.CompanyName</div>
+                                    <div class="secondary">@item.ContactPerson</div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="contact-person">@item.ContactPerson</span>
+                            </td>
+                            <td>
+                                <div class="contact-info">
+                                    <div class="phone">@item.Phone</div>
+                                    <div class="email">@item.Email</div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="status-badge status-@(item.IsActive ? "active" : "inactive")">
+                                    @(item.IsActive ? "Active" : "Inactive")
+                                </span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    @Html.ActionLink("View", "Details", new { id = item.ClientId }, new { @class = "btn btn-sm btn-outline" })
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.ClientId }, new { @class = "btn btn-sm btn-outline" })
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.ClientId }, new { @class = "btn btn-sm btn-outline btn-danger" })
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+        </div>
+    </div>
+</div> 

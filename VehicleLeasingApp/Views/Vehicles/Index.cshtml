@@ -1,0 +1,152 @@
+@model IEnumerable<VehicleLeasingApp.Models.Vehicle>
+
+@{
+    ViewBag.Title = "Vehicles";
+}
+
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <a href="/" class="sidebar-brand">SA Vehicle Leasing</a>
+            <small style="color: rgba(255,255,255,0.6);">Management System</small>
+        </div>
+        <ul class="sidebar-nav">
+            <li>
+                <a href="/Home/Index">
+                    <i class="material-icons">dashboard</i>
+                    Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="/Vehicles/Index" class="active">
+                    <i class="material-icons">directions_car</i>
+                    Vehicles
+                </a>
+            </li>
+            <li>
+                <a href="/Suppliers/Index">
+                    <i class="material-icons">business</i>
+                    Suppliers
+                </a>
+            </li>
+            <li>
+                <a href="/Branches/Index">
+                    <i class="material-icons">store</i>
+                    Branches
+                </a>
+            </li>
+            <li>
+                <a href="/Clients/Index">
+                    <i class="material-icons">people</i>
+                    Clients
+                </a>
+            </li>
+            <li>
+                <a href="/Drivers/Index">
+                    <i class="material-icons">person</i>
+                    Drivers
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+    <div class="page-header-clean">
+        <div class="header-content">
+            <h1>Vehicle Fleet</h1>
+            <div class="header-actions">
+                @Html.ActionLink("Add Vehicle", "Create", null, new { @class = "btn btn-primary" })
+            </div>
+        </div>
+        
+        <div class="fleet-summary">
+            <div class="summary-item">
+                <span class="number">@Model.Count()</span>
+                <span class="label">Total Vehicles</span>
+            </div>
+            <div class="summary-item">
+                <span class="number">@Model.Count(v => v.Status == "Available")</span>
+                <span class="label">Available</span>
+            </div>
+            <div class="summary-item">
+                <span class="number">@Model.Count(v => v.Status == "Leased")</span>
+                <span class="label">In Use</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="vehicles-table-container">
+        <div class="table-responsive">
+            <table class="table vehicles-table">
+                <thead>
+                    <tr>
+                        <th>Vehicle</th>
+                        <th>Status</th>
+                        <th>Rate/Day</th>
+                        <th>Location</th>
+                        <th>Assignment</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="vehicle-row" data-status="@item.Status.ToLower()">
+                            <td>
+                                <div class="vehicle-info">
+                                    <div class="license-plate">@item.LicensePlate</div>
+                                    <div class="vehicle-details">@item.Make @item.Model (@item.Year)</div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="status-badge status-@item.Status.ToLower()">
+                                    @item.Status
+                                </span>
+                            </td>
+                            <td>
+                                <span class="rate">R@(item.DailyRate.ToString("F0"))</span>
+                            </td>
+                            <td>
+                                <div class="location-info">
+                                    <div class="branch">@item.Branch.Name</div>
+                                    <div class="supplier">@item.Supplier.Name</div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="assignment-info">
+                                    @if (item.Client != null || item.Driver != null)
+                                    {
+                                        if (item.Client != null)
+                                        {
+                                            <div class="client">@item.Client.CompanyName</div>
+                                        }
+                                        if (item.Driver != null)
+                                        {
+                                            <div class="driver">@item.Driver.FullName</div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="unassigned">Unassigned</span>
+                                    }
+                                </div>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    @Html.ActionLink("View", "Details", new { id = item.VehicleId }, new { @class = "btn btn-sm btn-outline" })
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.VehicleId }, new { @class = "btn btn-sm btn-outline" })
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.VehicleId }, new { @class = "btn btn-sm btn-outline btn-danger" })
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+        </div>
+    </div>
+</div> 

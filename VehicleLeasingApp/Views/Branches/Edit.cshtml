@@ -1,0 +1,119 @@
+@model VehicleLeasingApp.Models.Branch
+
+@{
+    ViewBag.Title = "Edit Branch";
+}
+
+<div class="form-container">
+    <div class="form-header">
+        <div class="breadcrumb-nav">
+            @Html.ActionLink("Branches", "Index", null, new { @class = "breadcrumb-link" }) 
+            <span class="breadcrumb-separator">›</span>
+            <span class="breadcrumb-current">Edit Branch</span>
+        </div>
+        <h1>Edit Branch</h1>
+        <p class="form-subtitle">Update branch information and operational details</p>
+    </div>
+
+    @using (Html.BeginForm("Edit", "Branches", FormMethod.Post, new { @class = "clean-form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.BranchId)
+        
+        @Html.ValidationSummary(true, "", new { @class = "validation-summary" })
+
+        <div class="form-sections">
+            <!-- Basic Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Basic Information</h3>
+                    <p>Branch identification and management details</p>
+                </div>
+                <div class="section-content">
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, new { @class = "form-label required" })
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-input", placeholder = "Branch name" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Manager, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Manager, new { htmlAttributes = new { @class = "form-input", placeholder = "Branch manager name" } })
+                            @Html.ValidationMessageFor(model => model.Manager, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BranchCode, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.BranchCode, new { htmlAttributes = new { @class = "form-input", placeholder = "Branch code" } })
+                            @Html.ValidationMessageFor(model => model.BranchCode, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location & Operations Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Location & Operations</h3>
+                    <p>Address, hours, and operational information</p>
+                </div>
+                <div class="section-content">
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 2;">
+                            @Html.LabelFor(model => model.Address, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-input", placeholder = "Branch address" } })
+                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OpeningHours, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.OpeningHours, new { htmlAttributes = new { @class = "form-input", placeholder = "e.g., Mon-Fri 8:00-17:00" } })
+                            @Html.ValidationMessageFor(model => model.OpeningHours, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EstablishmentDate, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.EstablishmentDate, new { htmlAttributes = new { @class = "form-input", type = "date" } })
+                            @Html.ValidationMessageFor(model => model.EstablishmentDate, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Settings</h3>
+                    <p>Status and additional information</p>
+                </div>
+                <div class="section-content">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <div class="checkbox-group">
+                                @Html.CheckBoxFor(model => model.IsActive, new { @class = "form-checkbox" })
+                                @Html.LabelFor(model => model.IsActive, "Active Branch", new { @class = "checkbox-label" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Description, new { @class = "form-label" })
+                            @Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-textarea", rows = "3", placeholder = "Branch description and additional notes" } })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Save Changes</button>
+            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn-secondary" })
+        </div>
+    }
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+} 

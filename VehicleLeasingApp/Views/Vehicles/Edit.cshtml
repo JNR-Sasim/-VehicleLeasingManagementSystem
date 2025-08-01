@@ -1,0 +1,163 @@
+@model VehicleLeasingApp.Models.Vehicle
+
+@{
+    ViewBag.Title = "Edit Vehicle";
+}
+
+<div class="form-container">
+    <div class="form-header">
+        <div class="breadcrumb-nav">
+            @Html.ActionLink("Vehicles", "Index", null, new { @class = "breadcrumb-link" }) 
+            <span class="breadcrumb-separator">›</span>
+            <span class="breadcrumb-current">Edit Vehicle</span>
+        </div>
+        <h1>Edit Vehicle</h1>
+        <p class="form-subtitle">Update vehicle information and assignments</p>
+    </div>
+
+    @using (Html.BeginForm("Edit", "Vehicles", FormMethod.Post, new { @class = "clean-form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.VehicleId)
+        
+        @Html.ValidationSummary(true, "", new { @class = "validation-summary" })
+
+        <div class="form-sections">
+            <!-- Vehicle Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Vehicle Information</h3>
+                    <p>Basic vehicle details and specifications</p>
+                </div>
+                <div class="section-content">
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.LicensePlate, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.LicensePlate, new { htmlAttributes = new { @class = "form-input", placeholder = "Enter license plate" } })
+                            @Html.ValidationMessageFor(model => model.LicensePlate, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Status, new { @class = "form-label" })
+                            @Html.DropDownListFor(model => model.Status, new SelectList(new[] { "Available", "Leased", "Maintenance" }), new { @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Make, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Make, new { htmlAttributes = new { @class = "form-input", placeholder = "Vehicle make" } })
+                            @Html.ValidationMessageFor(model => model.Make, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Model, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Model, new { htmlAttributes = new { @class = "form-input", placeholder = "Vehicle model" } })
+                            @Html.ValidationMessageFor(model => model.Model, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Year, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-input", placeholder = "Year" } })
+                            @Html.ValidationMessageFor(model => model.Year, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Color, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-input", placeholder = "Vehicle color" } })
+                            @Html.ValidationMessageFor(model => model.Color, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FuelType, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.FuelType, new { htmlAttributes = new { @class = "form-input", placeholder = "Fuel type" } })
+                            @Html.ValidationMessageFor(model => model.FuelType, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EngineSize, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.EngineSize, new { htmlAttributes = new { @class = "form-input", placeholder = "Engine size (L)" } })
+                            @Html.ValidationMessageFor(model => model.EngineSize, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Mileage, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Mileage, new { htmlAttributes = new { @class = "form-input", placeholder = "Current mileage" } })
+                            @Html.ValidationMessageFor(model => model.Mileage, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DailyRate, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.DailyRate, new { htmlAttributes = new { @class = "form-input", placeholder = "Daily rental rate" } })
+                            @Html.ValidationMessageFor(model => model.DailyRate, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assignments Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Assignments & Location</h3>
+                    <p>Supplier, branch, client and driver assignments</p>
+                </div>
+                <div class="section-content">
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SupplierId, "Supplier", new { @class = "form-label required" })
+                            @Html.DropDownList("SupplierId", null, "Select supplier", new { @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.SupplierId, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BranchId, "Branch", new { @class = "form-label required" })
+                            @Html.DropDownList("BranchId", null, "Select branch", new { @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ClientId, "Client", new { @class = "form-label" })
+                            @Html.DropDownList("ClientId", null, "Select client (optional)", new { @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.ClientId, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DriverId, "Driver", new { @class = "form-label" })
+                            @Html.DropDownList("DriverId", null, "Select driver (optional)", new { @class = "form-select" })
+                            @Html.ValidationMessageFor(model => model.DriverId, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Service Information</h3>
+                    <p>Maintenance and service scheduling</p>
+                </div>
+                <div class="section-content">
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.LastServiceDate, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.LastServiceDate, new { htmlAttributes = new { @class = "form-input", type = "date" } })
+                            @Html.ValidationMessageFor(model => model.LastServiceDate, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.NextServiceDue, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.NextServiceDue, new { htmlAttributes = new { @class = "form-input", type = "date" } })
+                            @Html.ValidationMessageFor(model => model.NextServiceDue, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Save Changes</button>
+            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn-secondary" })
+        </div>
+    }
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+} 

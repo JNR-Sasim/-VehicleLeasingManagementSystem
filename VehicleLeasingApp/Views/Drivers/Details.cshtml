@@ -1,0 +1,120 @@
+@model VehicleLeasingApp.Models.Driver
+
+@{
+    ViewBag.Title = "Driver Details";
+}
+
+<div class="form-container">
+    <div class="form-header">
+        <div class="breadcrumb-nav">
+            @Html.ActionLink("Drivers", "Index", null, new { @class = "breadcrumb-link" }) 
+            <span class="breadcrumb-separator">›</span>
+            <span class="breadcrumb-current">Driver Details</span>
+        </div>
+        <h1>Driver Details</h1>
+        <p class="form-subtitle">Complete information for @(Model.FirstName) @(Model.LastName)</p>
+    </div>
+
+    <div class="clean-form">
+        <div class="form-sections">
+            <!-- Personal Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Personal Information</h3>
+                    <p>Driver's personal details and address</p>
+                </div>
+                <div class="section-content">
+                    <table class="details-table">
+                        <tr>
+                            <td class="detail-label">Full Name</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.FullName)</td>
+                            <td class="detail-label">Status</td>
+                            <td class="detail-value">
+                                <span class="status-badge @(Model.IsActive ? "status-available" : "status-maintenance")">
+                                    @(Model.IsActive ? "Active" : "Inactive")
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Date of Birth</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.DateOfBirth)</td>
+                            <td class="detail-label">Hire Date</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.HireDate)</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Address</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.Address)</td>
+                            <td class="detail-label"></td>
+                            <td class="detail-value"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- License Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>License Information</h3>
+                    <p>Driver's license details and validity</p>
+                </div>
+                <div class="section-content">
+                    <table class="details-table">
+                        <tr>
+                            <td class="detail-label">License Number</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.DriverLicenseNumber)</td>
+                            <td class="detail-label">License Expiry</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.LicenseExpiryDate)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Contact Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Contact Information</h3>
+                    <p>Phone, email, and emergency contact details</p>
+                </div>
+                <div class="section-content">
+                    <table class="details-table">
+                        <tr>
+                            <td class="detail-label">Phone</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.Phone)</td>
+                            <td class="detail-label">Email</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.Email)</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Emergency Contact</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.EmergencyContact)</td>
+                            <td class="detail-label">Emergency Phone</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.EmergencyPhone)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Additional Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Additional Information</h3>
+                    <p>Notes and additional details</p>
+                </div>
+                <div class="section-content">
+                    <table class="details-table">
+                        <tr>
+                            <td class="detail-label">Notes</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.Notes)</td>
+                            <td class="detail-label"></td>
+                            <td class="detail-value"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            @Html.ActionLink("Edit Driver", "Edit", new { id = Model.DriverId }, new { @class = "btn-primary" })
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn-secondary" })
+        </div>
+    </div>
+</div> 

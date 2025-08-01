@@ -1,0 +1,477 @@
+@model VehicleLeasingApp.Controllers.DashboardViewModel
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <a href="/" class="sidebar-brand">SA Vehicle Leasing</a>
+            <small style="color: rgba(255,255,255,0.6);">Management System</small>
+        </div>
+        <ul class="sidebar-nav">
+            <li>
+                <a href="/Home/Index" class="active">
+                    <i class="material-icons">dashboard</i>
+                    Dashboard
+                </a>
+            </li>
+            <li>
+                <a href="/Vehicles/Index">
+                    <i class="material-icons">directions_car</i>
+                    Vehicles
+                </a>
+            </li>
+            <li>
+                <a href="/Suppliers/Index">
+                    <i class="material-icons">business</i>
+                    Suppliers
+                </a>
+            </li>
+            <li>
+                <a href="/Branches/Index">
+                    <i class="material-icons">store</i>
+                    Branches
+                </a>
+            </li>
+            <li>
+                <a href="/Clients/Index">
+                    <i class="material-icons">people</i>
+                    Clients
+                </a>
+            </li>
+            <li>
+                <a href="/Drivers/Index">
+                    <i class="material-icons">person</i>
+                    Drivers
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="content-header">
+            <h1>Dashboard Overview</h1>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="row">
+            <div class="col s12 m3">
+                <div class="card gradient-card blue darken-2 white-text">
+                    <div class="card-content">
+                        <div class="card-stats-header">
+                            <i class="material-icons background-round">directions_car</i>
+                            <p>Total Vehicles</p>
+                        </div>
+                        <h4>@Model.TotalVehicles</h4>
+                        <div class="progress">
+                            <div class="determinate white" style="width: 100%"></div>
+                        </div>
+                        <p class="stats-text">Fleet Size</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m3">
+                <div class="card gradient-card green darken-1 white-text">
+                    <div class="card-content">
+                        <div class="card-stats-header">
+                            <i class="material-icons background-round">check_circle</i>
+                            <p>Available</p>
+                        </div>
+                        <h4>@Model.AvailableVehicles</h4>
+                        <div class="progress">
+                            <div class="determinate white" style="width: @(((double)Model.AvailableVehicles / Model.TotalVehicles * 100).ToString("F0"))%"></div>
+                        </div>
+                        <p class="stats-text">Ready for Lease</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m3">
+                <div class="card gradient-card orange darken-2 white-text">
+                    <div class="card-content">
+                        <div class="card-stats-header">
+                            <i class="material-icons background-round">swap_horiz</i>
+                            <p>Leased</p>
+                        </div>
+                        <h4>@Model.LeasedVehicles</h4>
+                        <div class="progress">
+                            <div class="determinate white" style="width: @(((double)Model.LeasedVehicles / Model.TotalVehicles * 100).ToString("F0"))%"></div>
+                        </div>
+                        <p class="stats-text">Currently in Use</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m3">
+                <div class="card gradient-card purple darken-1 white-text">
+                    <div class="card-content">
+                        <div class="card-stats-header">
+                            <i class="material-icons background-round">store</i>
+                            <p>Branches</p>
+                        </div>
+                        <h4>@Model.TotalBranches</h4>
+                        <div class="progress">
+                            <div class="determinate white" style="width: 100%"></div>
+                        </div>
+                        <p class="stats-text">Active Locations</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Tables -->
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Fleet Analytics Overview</span>
+                        
+                        <!-- By Manufacturer -->
+                        <div class="section">
+                            <h6 class="blue-text text-darken-2">
+                                <i class="material-icons left">business</i>
+                                By Manufacturer
+                            </h6>
+                            <table class="striped highlight responsive-table">
+                                <thead>
+                                    <tr>
+                                        <th>Manufacturer</th>
+                                        <th class="center-align">Total</th>
+                                        <th class="center-align">Available</th>
+                                        <th class="right-align">Daily Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var stat in Model.VehicleStatsByManufacturer)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <strong>@stat.Manufacturer</strong>
+                                            </td>
+                                            <td class="center-align">
+                                                <span class="new badge blue" data-badge-caption="">@stat.TotalVehicles</span>
+                                            </td>
+                                            <td class="center-align">
+                                                <span class="new badge green" data-badge-caption="">@stat.AvailableVehicles</span>
+                                            </td>
+                                            <td class="right-align">
+                                                <strong>R @stat.TotalDailyRate.ToString("N2")</strong>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- By Supplier -->
+                        <div class="section">
+                            <h6 class="blue-text text-darken-2">
+                                <i class="material-icons left">local_shipping</i>
+                                By Supplier
+                            </h6>
+                            <table class="striped highlight responsive-table">
+                                <thead>
+                                    <tr>
+                                        <th>Supplier</th>
+                                        <th class="center-align">Total</th>
+                                        <th class="center-align">Available</th>
+                                        <th class="right-align">Daily Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var stat in Model.VehicleStatsBySupplier)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <strong>@stat.SupplierName</strong>
+                                            </td>
+                                            <td class="center-align">
+                                                <span class="new badge blue" data-badge-caption="">@stat.TotalVehicles</span>
+                                            </td>
+                                            <td class="center-align">
+                                                <span class="new badge green" data-badge-caption="">@stat.AvailableVehicles</span>
+                                            </td>
+                                            <td class="right-align">
+                                                <strong>R @stat.TotalDailyRate.ToString("N2")</strong>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- By Branch -->
+                        <div class="section">
+                            <h6 class="blue-text text-darken-2">
+                                <i class="material-icons left">store</i>
+                                By Branch Location
+                            </h6>
+                            <table class="striped highlight responsive-table">
+                                <thead>
+                                    <tr>
+                                        <th>Branch</th>
+                                        <th class="center-align">Total</th>
+                                        <th class="center-align">Available</th>
+                                        <th class="right-align">Daily Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var stat in Model.VehicleStatsByBranch)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <strong>@stat.BranchName</strong>
+                                            </td>
+                                            <td class="center-align">
+                                                <span class="new badge blue" data-badge-caption="">@stat.TotalVehicles</span>
+                                            </td>
+                                            <td class="center-align">
+                                                <span class="new badge green" data-badge-caption="">@stat.AvailableVehicles</span>
+                                            </td>
+                                            <td class="right-align">
+                                                <strong>R @stat.TotalDailyRate.ToString("N2")</strong>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- By Client -->
+                        <div class="section">
+                            <h6 class="blue-text text-darken-2">
+                                <i class="material-icons left">people</i>
+                                By Client
+                            </h6>
+                            <table class="striped highlight responsive-table">
+                                <thead>
+                                    <tr>
+                                        <th>Client</th>
+                                        <th class="center-align">Vehicles</th>
+                                        <th class="right-align">Daily Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var stat in Model.VehicleStatsByClient)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <strong>@stat.ClientName</strong>
+                                            </td>
+                                            <td class="center-align">
+                                                <span class="new badge orange" data-badge-caption="">@stat.TotalVehicles</span>
+                                            </td>
+                                            <td class="right-align">
+                                                <strong>R @stat.TotalDailyRate.ToString("N2")</strong>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- Main Analytics Section -->
+    <div class="row" style="margin-bottom: 2rem;">
+        <div class="col-md-12">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Fleet Analytics Overview</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <!-- Manufacturer Summary -->
+                        <div class="col-md-6" style="margin-bottom: 2rem;">
+                            <h4 style="color: #1e3a8a; margin-bottom: 1rem;">By Manufacturer</h4>
+                            <div class="table-responsive">
+                                <table class="table table-hover" style="margin-bottom: 0;">
+                                    <thead style="background: #f8f9fa;">
+                                        <tr>
+                                            <th>Manufacturer</th>
+                                            <th style="text-align: center;">Total</th>
+                                            <th style="text-align: center;">Available</th>
+                                            <th style="text-align: right;">Daily Rate</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var stat in Model.VehicleStatsByManufacturer)
+                                        {
+                                            <tr>
+                                                <td><strong>@stat.Manufacturer</strong></td>
+                                                <td style="text-align: center;"><span class="label label-primary">@stat.TotalVehicles</span></td>
+                                                <td style="text-align: center;"><span class="label label-success">@stat.AvailableVehicles</span></td>
+                                                <td style="text-align: right;"><strong style="color: #059669;">R@(stat.TotalDailyRate.ToString("F2"))</strong></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Supplier Summary -->
+                        <div class="col-md-6" style="margin-bottom: 2rem;">
+                            <h4 style="color: #1e3a8a; margin-bottom: 1rem;">By Supplier</h4>
+                            <div class="table-responsive">
+                                <table class="table table-hover" style="margin-bottom: 0;">
+                                    <thead style="background: #f8f9fa;">
+                                        <tr>
+                                            <th>Supplier</th>
+                                            <th style="text-align: center;">Total</th>
+                                            <th style="text-align: center;">Available</th>
+                                            <th style="text-align: right;">Daily Rate</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var stat in Model.VehicleStatsBySupplier)
+                                        {
+                                            <tr>
+                                                <td><strong>@stat.SupplierName</strong></td>
+                                                <td style="text-align: center;"><span class="label label-primary">@stat.TotalVehicles</span></td>
+                                                <td style="text-align: center;"><span class="label label-success">@stat.AvailableVehicles</span></td>
+                                                <td style="text-align: right;"><strong style="color: #059669;">R@(stat.TotalDailyRate.ToString("F2"))</strong></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Branch Summary -->
+                        <div class="col-md-6">
+                            <h4 style="color: #1e3a8a; margin-bottom: 1rem;">By Branch Location</h4>
+                            <div class="table-responsive">
+                                <table class="table table-hover" style="margin-bottom: 0;">
+                                    <thead style="background: #f8f9fa;">
+                                        <tr>
+                                            <th>Branch</th>
+                                            <th style="text-align: center;">Total</th>
+                                            <th style="text-align: center;">Available</th>
+                                            <th style="text-align: right;">Daily Rate</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var stat in Model.VehicleStatsByBranch)
+                                        {
+                                            <tr>
+                                                <td><strong>@stat.BranchName</strong></td>
+                                                <td style="text-align: center;"><span class="label label-primary">@stat.TotalVehicles</span></td>
+                                                <td style="text-align: center;"><span class="label label-success">@stat.AvailableVehicles</span></td>
+                                                <td style="text-align: right;"><strong style="color: #059669;">R@(stat.TotalDailyRate.ToString("F2"))</strong></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Client Summary -->
+                        <div class="col-md-6">
+                            <h4 style="color: #1e3a8a; margin-bottom: 1rem;">By Client</h4>
+                            <div class="table-responsive">
+                                <table class="table table-hover" style="margin-bottom: 0;">
+                                    <thead style="background: #f8f9fa;">
+                                        <tr>
+                                            <th>Client Company</th>
+                                            <th style="text-align: center;">Vehicles</th>
+                                            <th style="text-align: right;">Daily Rate</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var stat in Model.VehicleStatsByClient)
+                                        {
+                                            <tr>
+                                                <td><strong>@stat.ClientName</strong></td>
+                                                <td style="text-align: center;"><span class="label label-warning">@stat.TotalVehicles</span></td>
+                                                <td style="text-align: right;"><strong style="color: #059669;">R@(stat.TotalDailyRate.ToString("F2"))</strong></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Management Actions -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="management-actions-container">
+                <div class="management-header">
+                    <h3>Quick Actions</h3>
+                    <p>Access and manage all system modules</p>
+                </div>
+                
+                <div class="management-grid">
+                    <a href="/Vehicles/Index" class="management-card">
+                        <div class="card-icon vehicles">
+                            <i class="glyphicon glyphicon-car"></i>
+                        </div>
+                        <div class="card-content">
+                            <h4>Vehicles</h4>
+                            <p>Manage fleet inventory</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/Suppliers/Index" class="management-card">
+                        <div class="card-icon suppliers">
+                            <i class="glyphicon glyphicon-briefcase"></i>
+                        </div>
+                        <div class="card-content">
+                            <h4>Suppliers</h4>
+                            <p>Vendor management</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/Branches/Index" class="management-card">
+                        <div class="card-icon branches">
+                            <i class="glyphicon glyphicon-home"></i>
+                        </div>
+                        <div class="card-content">
+                            <h4>Branches</h4>
+                            <p>Location management</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/Clients/Index" class="management-card">
+                        <div class="card-icon clients">
+                            <i class="glyphicon glyphicon-user"></i>
+                        </div>
+                        <div class="card-content">
+                            <h4>Clients</h4>
+                            <p>Customer management</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/Drivers/Index" class="management-card">
+                        <div class="card-icon drivers">
+                            <i class="glyphicon glyphicon-road"></i>
+                        </div>
+                        <div class="card-content">
+                            <h4>Drivers</h4>
+                            <p>Driver management</p>
+                        </div>
+                    </a>
+                    
+                    <a href="/Vehicles/Create" class="management-card featured">
+                        <div class="card-icon add-vehicle">
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </div>
+                        <div class="card-content">
+                            <h4>Add Vehicle</h4>
+                            <p>Register new vehicle</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

@@ -1,0 +1,147 @@
+@model VehicleLeasingApp.Models.Supplier
+
+@{
+    ViewBag.Title = "Edit Supplier";
+}
+
+<div class="form-container">
+    <div class="form-header">
+        <div class="breadcrumb-nav">
+            @Html.ActionLink("Suppliers", "Index", null, new { @class = "breadcrumb-link" }) 
+            <span class="breadcrumb-separator">›</span>
+            <span class="breadcrumb-current">Edit Supplier</span>
+        </div>
+        <h1>Edit Supplier</h1>
+        <p class="form-subtitle">Update supplier information and contact details</p>
+    </div>
+
+    @using (Html.BeginForm("Edit", "Suppliers", FormMethod.Post, new { @class = "clean-form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.SupplierId)
+        
+        @Html.ValidationSummary(true, "", new { @class = "validation-summary" })
+
+        <div class="form-sections">
+            <!-- Basic Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Basic Information</h3>
+                    <p>Company details and primary contact information</p>
+                </div>
+                <div class="section-content">
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, new { @class = "form-label required" })
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-input", placeholder = "Supplier name" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ContactPerson, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.ContactPerson, new { htmlAttributes = new { @class = "form-input", placeholder = "Contact person name" } })
+                            @Html.ValidationMessageFor(model => model.ContactPerson, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Phone, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-input", placeholder = "Enter phone number" } })
+                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Email, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-input", placeholder = "Enter email address" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Website, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Website, new { htmlAttributes = new { @class = "form-input", placeholder = "Enter website URL" } })
+                            @Html.ValidationMessageFor(model => model.Website, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            <!-- Empty space for layout balance -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Address Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Address Information</h3>
+                    <p>Physical location and address details</p>
+                </div>
+                <div class="section-content">
+                    <div class="form-row">
+                        <div class="form-group" style="flex: 2;">
+                            @Html.LabelFor(model => model.Address, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-input", placeholder = "Street address" } })
+                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.City, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-input", placeholder = "City" } })
+                            @Html.ValidationMessageFor(model => model.City, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.State, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-input", placeholder = "State/Province" } })
+                            @Html.ValidationMessageFor(model => model.State, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.PostalCode, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.PostalCode, new { htmlAttributes = new { @class = "form-input", placeholder = "Postal code" } })
+                            @Html.ValidationMessageFor(model => model.PostalCode, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Country, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-input", placeholder = "Country" } })
+                            @Html.ValidationMessageFor(model => model.Country, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Settings</h3>
+                    <p>Status and additional notes</p>
+                </div>
+                <div class="section-content">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <div class="checkbox-group">
+                                @Html.CheckBoxFor(model => model.IsActive, new { @class = "form-checkbox" })
+                                @Html.LabelFor(model => model.IsActive, "Active Supplier", new { @class = "checkbox-label" })
+                            </div>
+                            @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Notes, new { @class = "form-label" })
+                            @Html.TextAreaFor(model => model.Notes, new { htmlAttributes = new { @class = "form-textarea", rows = "3", placeholder = "Additional notes about this supplier" } })
+                            @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Save Changes</button>
+            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn-secondary" })
+        </div>
+    }
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+} 

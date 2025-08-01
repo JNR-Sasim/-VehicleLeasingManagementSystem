@@ -1,0 +1,155 @@
+@model VehicleLeasingApp.Models.Driver
+
+@{
+    ViewBag.Title = "Create Driver";
+}
+
+<div class="form-container">
+    <div class="form-header">
+        <div class="breadcrumb-nav">
+            @Html.ActionLink("Drivers", "Index", null, new { @class = "breadcrumb-link" }) 
+            <span class="breadcrumb-separator">›</span>
+            <span class="breadcrumb-current">Add New Driver</span>
+        </div>
+        <h1>Add New Driver</h1>
+        <p class="form-subtitle">Register a new driver in the fleet management system</p>
+    </div>
+
+    @using (Html.BeginForm("Create", "Drivers", FormMethod.Post, new { @class = "clean-form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "validation-summary" })
+        
+        <div class="form-sections">
+            <!-- Personal Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Personal Information</h3>
+                    <p>Driver's personal details and address</p>
+                </div>
+                <div class="section-content">
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FirstName, new { @class = "form-label required" })
+                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-input", placeholder = "Enter first name" } })
+                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.LastName, new { @class = "form-label required" })
+                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-input", placeholder = "Enter last name" } })
+                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DateOfBirth, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-input", type = "date" } })
+                            @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.HireDate, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.HireDate, new { htmlAttributes = new { @class = "form-input", type = "date" } })
+                            @Html.ValidationMessageFor(model => model.HireDate, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Address, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-input", placeholder = "Enter residential address" } })
+                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox-group">
+                                @Html.CheckBoxFor(model => model.IsActive, new { @class = "form-checkbox" })
+                                @Html.LabelFor(model => model.IsActive, new { @class = "checkbox-label" })
+                                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "form-error" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- License Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>License Information</h3>
+                    <p>Driver's license details and validity</p>
+                </div>
+                <div class="section-content">
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DriverLicenseNumber, new { @class = "form-label required" })
+                            @Html.EditorFor(model => model.DriverLicenseNumber, new { htmlAttributes = new { @class = "form-input", placeholder = "Enter driver license number" } })
+                            @Html.ValidationMessageFor(model => model.DriverLicenseNumber, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.LicenseExpiryDate, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.LicenseExpiryDate, new { htmlAttributes = new { @class = "form-input", type = "date" } })
+                            @Html.ValidationMessageFor(model => model.LicenseExpiryDate, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Contact Information</h3>
+                    <p>Phone, email, and emergency contact details</p>
+                </div>
+                <div class="section-content">
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Phone, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-input", placeholder = "Enter phone number" } })
+                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Email, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-input", placeholder = "Enter email address" } })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmergencyContact, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.EmergencyContact, new { htmlAttributes = new { @class = "form-input", placeholder = "Enter emergency contact name" } })
+                            @Html.ValidationMessageFor(model => model.EmergencyContact, "", new { @class = "form-error" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmergencyPhone, new { @class = "form-label" })
+                            @Html.EditorFor(model => model.EmergencyPhone, new { htmlAttributes = new { @class = "form-input", placeholder = "Enter emergency phone number" } })
+                            @Html.ValidationMessageFor(model => model.EmergencyPhone, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Additional Information</h3>
+                    <p>Notes and additional details</p>
+                </div>
+                <div class="section-content">
+                    <div class="form-row">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Notes, new { @class = "form-label" })
+                            @Html.TextAreaFor(model => model.Notes, new { htmlAttributes = new { @class = "form-textarea", placeholder = "Enter any additional notes", rows = "3" } })
+                            @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "form-error" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">Create Driver</button>
+            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn-secondary" })
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+} 

@@ -1,0 +1,96 @@
+@model VehicleLeasingApp.Models.Branch
+
+@{
+    ViewBag.Title = "Branch Details";
+}
+
+<div class="form-container">
+    <div class="form-header">
+        <div class="breadcrumb-nav">
+            @Html.ActionLink("Branches", "Index", null, new { @class = "breadcrumb-link" }) 
+            <span class="breadcrumb-separator">›</span>
+            <span class="breadcrumb-current">Branch Details</span>
+        </div>
+        <h1>Branch Details</h1>
+        <p class="form-subtitle">Complete information for @(Model.Name)</p>
+    </div>
+
+    <div class="clean-form">
+        <div class="form-sections">
+            <!-- Basic Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Basic Information</h3>
+                    <p>Branch identification and management details</p>
+                </div>
+                <div class="section-content">
+                    <table class="details-table">
+                        <tr>
+                            <td class="detail-label">Branch Name</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.Name)</td>
+                            <td class="detail-label">Status</td>
+                            <td class="detail-value">
+                                <span class="status-badge @(Model.IsActive ? "status-available" : "status-maintenance")">
+                                    @(Model.IsActive ? "Active" : "Inactive")
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Branch Code</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.BranchCode)</td>
+                            <td class="detail-label">Manager</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.Manager)</td>
+                        </tr>
+                        <tr>
+                            <td class="detail-label">Establishment Date</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.EstablishmentDate)</td>
+                            <td class="detail-label">Opening Hours</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.OpeningHours)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Location Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Location Information</h3>
+                    <p>Branch address and operational details</p>
+                </div>
+                <div class="section-content">
+                    <table class="details-table">
+                        <tr>
+                            <td class="detail-label">Address</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.Address)</td>
+                            <td class="detail-label"></td>
+                            <td class="detail-value"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Additional Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h3>Additional Information</h3>
+                    <p>Description and additional details</p>
+                </div>
+                <div class="section-content">
+                    <table class="details-table">
+                        <tr>
+                            <td class="detail-label">Description</td>
+                            <td class="detail-value">@Html.DisplayFor(model => model.Description)</td>
+                            <td class="detail-label"></td>
+                            <td class="detail-value"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            @Html.ActionLink("Edit Branch", "Edit", new { id = Model.BranchId }, new { @class = "btn-primary" })
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn-secondary" })
+        </div>
+    </div>
+</div> 
