@@ -194,7 +194,10 @@ body {
 .card-stats-header p {
     margin: 0;
     font-size: 1.1rem;
-    opacity: 0.9;
+    opacity: 1.0 !important;
+    font-weight: 600;
+    color: white !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .background-round {
@@ -206,7 +209,24 @@ body {
 .stats-text {
     margin: 0.5rem 0 0 0;
     font-size: 0.9rem;
-    opacity: 0.8;
+    opacity: 1.0 !important;
+    font-weight: 500;
+    color: white !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Force white text on dashboard cards */
+.white-text .card-stats-header p,
+.white-text .stats-text {
+    color: white !important;
+    opacity: 1.0 !important;
+}
+
+/* Additional specificity for dashboard cards */
+.gradient-card .card-stats-header p,
+.gradient-card .stats-text {
+    color: white !important;
+    opacity: 1.0 !important;
 }
 
 .section {
