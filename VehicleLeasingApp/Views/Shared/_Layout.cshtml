@@ -1,64 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
+@{
+    var ctrl = ViewContext.RouteData.Values["controller"] as string ?? "Home";
+    Func<string, string> nav = c => ctrl == c ? "cmd-link active" : "cmd-link";
+}
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewBag.Title - South African Vehicle Leasing Management System</title>
+    <title>@ViewBag.Title · SA Vehicle Leasing</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@500;600;700;800;900&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    @RenderBody()
+    <!-- ===== TOP COMMAND BAR (shared chrome) ===== -->
+    <header class="commandbar">
+        <a href="/Home/Index" class="cmd-brand">
+            <span class="cmd-mark">SA</span>
+            <span class="cmd-wordmark">Vehicle&nbsp;Leasing<em>/ fleet control</em></span>
+        </a>
+        <nav class="cmd-nav">
+            <a href="/Home/Index" class="@nav("Home")"><span class="idx">00</span>Dashboard</a>
+            <a href="/Vehicles/Index" class="@nav("Vehicles")"><span class="idx">01</span>Vehicles</a>
+            <a href="/Suppliers/Index" class="@nav("Suppliers")"><span class="idx">02</span>Suppliers</a>
+            <a href="/Branches/Index" class="@nav("Branches")"><span class="idx">03</span>Branches</a>
+            <a href="/Clients/Index" class="@nav("Clients")"><span class="idx">04</span>Clients</a>
+            <a href="/Drivers/Index" class="@nav("Drivers")"><span class="idx">05</span>Drivers</a>
+        </nav>
+        <div class="cmd-status">
+            <span class="dot"></span> SYSTEM&nbsp;ONLINE
+        </div>
+        <button class="cmd-burger" id="cmdBurger" aria-label="Menu">
+            <i class="material-icons">menu</i>
+        </button>
+    </header>
+
+    <main class="stage">
+        @RenderBody()
+    </main>
+
+    <footer class="stage-foot">
+        <span>SA Vehicle Leasing Management System</span>
+        <span>REV 2026 — Fleet Control Console</span>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Materialize components
-            M.AutoInit();
-
-            // Add ripple effect to cards
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                card.classList.add('waves-effect', 'waves-light');
+        document.addEventListener('DOMContentLoaded', function () {
+            // mobile nav toggle
+            var burger = document.getElementById('cmdBurger');
+            if (burger) burger.addEventListener('click', function () {
+                document.querySelector('.cmd-nav').classList.toggle('open');
             });
 
-            // Add hover effect to cards
-            cards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-4px)';
-                    this.style.transition = 'transform 0.3s ease';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
+            // staggered reveal of blocks
+            var reveals = document.querySelectorAll('[data-reveal]');
+            reveals.forEach(function (el, i) { el.style.setProperty('--i', i); });
 
-            // Initialize tooltips
-            const tooltips = document.querySelectorAll('.tooltipped');
-            M.Tooltip.init(tooltips);
-
-            // Initialize dropdowns
-            const dropdowns = document.querySelectorAll('.dropdown-trigger');
-            M.Dropdown.init(dropdowns);
-
-            // Add smooth page transitions
-            document.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    if (this.getAttribute('href').startsWith('/')) {
-                        const content = document.querySelector('.main-content');
-                        content.style.opacity = '0';
-                        content.style.transition = 'opacity 0.3s ease';
-                        setTimeout(() => content.style.opacity = '1', 300);
-                    }
-                });
-            });
+            // animated counters
+            var nums = document.querySelectorAll('[data-count]');
+            if (nums.length) {
+                var io = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (en) {
+                        if (!en.isIntersecting) return;
+                        var el = en.target, target = parseFloat(el.getAttribute('data-count')) || 0;
+                        var start = performance.now(), dur = 1100;
+                        (function step(now) {
+                            var p = Math.min((now - start) / dur, 1);
+                            var e = 1 - Math.pow(1 - p, 3);
+                            el.textContent = Math.round(e * target);
+                            if (p < 1) requestAnimationFrame(step);
+                        })(start);
+                        io.unobserve(el);
+                    });
+                }, { threshold: 0.6 });
+                nums.forEach(function (n) { io.observe(n); });
+            }
         });
     </script>
     @RenderSection("scripts", required: false)
 </body>
-</html> 
+</html>

@@ -27,22 +27,32 @@ The application uses the following entities:
 - **Drivers**: Vehicle operators and drivers
 
 ## Installation & Setup
-1. Clone the repository
-2. Open the solution in Visual Studio
-3. Update the connection string in `Web.config`
-4. Run the application to create the database
-5. The application will automatically create tables using Code-First approach
+1. **Clone the repository**
+   ```
+   git clone https://github.com/JNR-Sasim/-VehicleLeasingManagementSystem.git
+   ```
+2. **Open the solution** (`VehicleLeasingApp.sln`) in Visual Studio.
+3. **Restore NuGet packages** (Visual Studio usually does this automatically on first build; otherwise right-click the solution → Restore NuGet Packages).
+4. **(Optional) Update the connection string** in `Web.config`.
+   - The project ships configured for **SQL Server LocalDB** (`(LocalDb)\MSSQLLocalDB`), which installs with Visual Studio's "ASP.NET and web development" workload. If you have that, **no change is needed** — skip this step.
+   - Only edit the connection string if you want to use a different database, e.g. a full SQL Server instance:
+     ```
+     Data Source=YOUR_SERVER;Initial Catalog=VehicleLeasingDB;Integrated Security=True
+     ```
+5. **Run the application** — press `F5` (or `Ctrl+F5`). On first run, Entity Framework Code-First automatically creates the `VehicleLeasingDB` database, builds all tables, and seeds sample data, so the dashboard loads already populated.
+
+> Optional: a `VehicleLeasingDB.bak` backup is included. If you prefer, restore it in SQL Server Management Studio and point the connection string at that database instead of using the auto-created one.
 
 ## Usage
-- Navigate to the dashboard for overview statistics
-- Use the sidebar navigation to access different modules
-- Each module provides full CRUD operations
-- View detailed reports and analytics on the dashboard
+- Navigate to the dashboard for fleet overview statistics and analytics.
+- Use the top navigation bar to switch between modules (Vehicles, Suppliers, Branches, Clients, Drivers).
+- Each module provides full CRUD operations (view, create, edit, delete).
 
 ## Requirements
-- Visual Studio 2019 or later
+- Windows
+- Visual Studio 2019 or later (with the "ASP.NET and web development" workload)
 - .NET Framework 4.7.2 or later
-- SQL Server 2016 or later
+- SQL Server LocalDB (included with Visual Studio) — or SQL Server 2016+ if you prefer a full instance
 
 ## Contact
 For verification and questions, contact: jsimelane3@gmail.com
